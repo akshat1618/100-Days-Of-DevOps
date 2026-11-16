@@ -1,0 +1,144 @@
+# Day 003 – Secure Root SSH Access
+
+**Challenge:** Secure Root SSH Access  
+**Platform:** KodeKloud Engineer  
+**Category:** Linux Administration / SSH Security  
+**Environment:** Stratos Datacenter  
+**Servers:** `stapp01`, `stapp02`, `stapp03`  
+**Status:** Completed ✅
+
+## Objective
+
+For Day 3, I worked on an SSH security task from KodeKloud. The requirement was to disable direct root login through SSH on all three application servers in the Stratos Datacenter.
+
+Allowing direct root login can increase security risks, so the goal was to prevent remote SSH access using the root account.
+
+## Server Details
+
+| Server | Username |
+|---|---|
+| App Server 1 (`stapp01`) | `tony` |
+| App Server 2 (`stapp02`) | `steve` |
+| App Server 3 (`stapp03`) | `banner` |
+
+## Implementation
+
+### Step 1: Connect to App Server 1
+
+```bash
+ssh tony@stapp01
+```
+
+**Explanation:** I connected to the first application server using SSH and the provided account `tony`.
+
+### Step 2: Open the SSH server configuration file
+
+```bash
+sudo vi /etc/ssh/sshd_config
+```
+
+**Explanation:** I opened the SSH server configuration file using Vim. This file contains settings that control incoming SSH connections.
+
+Initially, I opened `ssh_config`, which is used for SSH client settings. I learned that `sshd_config` is the correct file for server-side SSH configuration.
+
+### Step 3: Disable direct root login
+
+I located the `PermitRootLogin` directive and configured it as follows:
+
+```text
+PermitRootLogin no
+```
+
+**Explanation:** This setting prevents users from logging in directly as `root` through SSH, helping reduce the risk of unauthorized remote root access.
+
+To save the changes in Vim, I used:
+
+```text
+Esc
+:wq
+```
+
+**Explanation:** `Esc` exits insert mode, while `:wq` saves the changes and closes the editor.
+
+### Step 4: Validate SSH configuration
+
+```bash
+sudo sshd -t
+```
+
+**Explanation:** I used this command to check the SSH server configuration for syntax errors before applying the changes. If the configuration is valid, it normally returns no output.
+
+### Step 5: Reload the SSH service
+
+```bash
+sudo systemctl reload sshd
+```
+
+**Explanation:** This command reloads the SSH service so that the updated configuration takes effect without unnecessarily restarting the service.
+
+### Step 6: Verify the effective configuration
+
+```bash
+sudo sshd -T | grep permitrootlogin
+```
+
+**Explanation:** I used this command to display the effective SSH configuration and filter the output for the root login setting.
+
+Expected output:
+
+```text
+permitrootlogin no
+```
+
+### Step 7: Repeat on the remaining servers
+
+I applied the same configuration and verification procedure on the other two application servers.
+
+**App Server 2:**
+
+```bash
+ssh steve@stapp02
+```
+
+**Explanation:** Connected to App Server 2 using the provided account `steve`.
+
+**App Server 3:**
+
+```bash
+ssh banner@stapp03
+```
+
+**Explanation:** Connected to App Server 3 using the provided account `banner`.
+
+## Verification Checklist
+
+- [x] App Server 1 – `stapp01`
+- [x] App Server 2 – `stapp02`
+- [x] App Server 3 – `stapp03`
+- [x] SSH configuration validated
+- [x] SSH service reloaded
+- [x] Root SSH login restriction verified
+- [x] KodeKloud task successfully completed
+
+## What I Learned
+
+This task helped me understand how SSH server security is managed in Linux. I learned the difference between `ssh_config` and `sshd_config`, how to disable direct root login, and why configuration validation is important before reloading a service.
+
+I also learned how to apply consistent security configurations across multiple application servers.
+
+## Important Commands
+
+| Command | Purpose |
+|---|---|
+| `ssh` | Connect to a remote server |
+| `vi` | Edit configuration files |
+| `sshd -t` | Validate SSH configuration |
+| `systemctl reload sshd` | Reload SSH service |
+| `sshd -T` | Display effective SSH settings |
+| `grep` | Filter matching output |
+
+## Result
+
+Successfully disabled direct root SSH login across all three application servers in the Stratos Datacenter. The task was verified and completed successfully on KodeKloud.
+
+**Day 003 completed! ✅**

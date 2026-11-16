@@ -1,0 +1,75 @@
+# Day 001 – Linux User Setup with Non-Interactive Shell
+
+**Challenge:** Linux User Setup with Non-Interactive Shell  
+**Platform:** KodeKloud Engineer  
+**Category:** Linux Administration  
+**Server:** App Server 2 (`stapp02`)  
+**Username:** `ravi`  
+**Status:** Completed
+
+## Objective
+
+Today, I worked on a Linux user management task from KodeKloud. The requirement was to create a user named `ravi` on App Server 2 and assign a non-interactive shell.
+
+The purpose was to create an account for a backup agent without allowing the user to access an interactive shell.
+
+## Implementation
+
+### Step 1: Connect to App Server 2
+
+```bash
+ssh steve@stapp02
+```
+
+**Explanation:** I used SSH to connect to App Server 2 (`stapp02`) using the provided account `steve`.
+
+### Step 2: Create the user with a non-interactive shell
+
+```bash
+sudo useradd -s /sbin/nologin ravi
+```
+
+**Explanation:** This command creates a new Linux user named `ravi`. The `-s` option specifies the login shell, while `/sbin/nologin` prevents the account from opening an interactive shell. I used `sudo` because creating users requires administrative privileges.
+
+### Step 3: Verify user creation
+
+```bash
+id ravi
+```
+
+**Explanation:** I used this command to check whether the user was successfully created and to view its UID and group information.
+
+### Step 4: Verify the assigned shell
+
+```bash
+grep ravi /etc/passwd
+```
+
+**Explanation:** This command searches the `/etc/passwd` file for the `ravi` account. I checked the last field to confirm that `/sbin/nologin` was assigned.
+
+Expected output format:
+
+```text
+ravi:x:UID:GID::/home/ravi:/sbin/nologin
+```
+
+## What I Learned
+
+This task helped me understand how Linux user accounts are created and how login shells can be configured. I also learned why service accounts sometimes use `/sbin/nologin` instead of a normal shell. It was a useful introduction to basic Linux user administration and access control.
+
+## Important Commands
+
+| Command | What it does |
+|---|---|
+| `ssh` | Connects to a remote server |
+| `useradd` | Creates a new Linux user |
+| `-s` | Specifies the user's login shell |
+| `/sbin/nologin` | Prevents interactive shell login |
+| `id` | Displays user and group information |
+| `grep` | Searches for matching text in a file |
+
+## Result
+
+Successfully created the `ravi` user with a non-interactive shell on App Server 2.
+
+**Day 001 completed!**

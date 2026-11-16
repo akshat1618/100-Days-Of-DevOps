@@ -1,0 +1,75 @@
+# Day 002 – Temporary User Setup with Expiry Date
+
+**Challenge:** Temporary User Setup with Expiry  
+**Platform:** KodeKloud Engineer  
+**Category:** Linux User Management  
+**Server:** App Server 3 (`stapp03`)  
+**Username:** `ammar`  
+**Expiry Date:** `2027-01-28`  
+**Status:** Completed
+
+## Objective
+
+For today's challenge, I had to create a temporary Linux user account for a developer named `ammar` on App Server 3.
+
+The requirement was to make sure the account automatically expires on January 28, 2027. This is useful when someone needs temporary access to a server for a specific project or assignment.
+
+## Implementation
+
+### Step 1: Connect to App Server 3
+
+```bash
+ssh banner@stapp03
+```
+
+**Explanation:** I connected to App Server 3 (`stapp03`) using SSH with the provided username `banner`.
+
+### Step 2: Create the user with an expiry date
+
+```bash
+sudo useradd -e 2027-01-28 ammar
+```
+
+**Explanation:** This command creates the user `ammar`. The `-e` option sets the account expiration date. I specified `2027-01-28` so that the account expires on January 28, 2027.
+
+### Step 3: Verify user creation
+
+```bash
+id ammar
+```
+
+**Explanation:** I used this command to confirm that the user exists and to check the assigned user ID and group information.
+
+### Step 4: Check the account expiry date
+
+```bash
+sudo chage -l ammar
+```
+
+**Explanation:** This command displays the account aging information for `ammar`, including the account expiration date. I used it to confirm that the requested expiry date was configured correctly.
+
+Expected output:
+
+```text
+Account expires : Jan 28, 2027
+```
+
+## What I Learned
+
+Through this task, I learned how to manage temporary Linux user accounts. I understood how the `-e` option works with `useradd` and how `chage -l` helps verify account expiration details. This is useful in environments where temporary employees, developers, or contractors need limited-duration access.
+
+## Important Commands
+
+| Command | What it does |
+|---|---|
+| `ssh` | Connects to a remote server |
+| `useradd` | Creates a Linux user |
+| `-e` | Sets the account expiration date |
+| `id` | Displays user and group information |
+| `chage -l` | Displays account aging information |
+
+## Result
+
+Successfully created the lowercase user `ammar` on App Server 3 with the required account expiry date.
+
+**Day 002 completed!**
